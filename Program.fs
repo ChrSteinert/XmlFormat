@@ -1,7 +1,5 @@
-﻿open System
-open System.IO
+﻿open System.IO
 open System.Xml
-open System.Text
 
 let private formatFile (file : FileInfo) =
     let xml = XmlDocument()
@@ -18,5 +16,10 @@ let main argv =
             else None
         with _ -> None
     )
-    |> Array.iter formatFile
+    |> Array.iter (fun c -> 
+        try formatFile c
+        with e -> 
+            printfn "Could not format file '%O' with the following error\n%O" c e
+    )
+    
     0
